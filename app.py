@@ -9,7 +9,7 @@ from bokeh.embed import file_html
 from bokeh.resources import CDN
 from flask import Flask, render_template
 from bokeh.io import show
-import pandas as pd
+# import pandas as pd
 
 
 app = Flask(__name__)
