@@ -22,9 +22,6 @@ def begin():
 @app.route('/trend')
 def trend_graph():
 
-    from bokeh.plotting import figure, output_file, show
-    from bokeh.sampledata.stocks import AAPL
-
     df = pd.DataFrame(AAPL)
     df['date'] = pd.to_datetime(df['date'])
 
@@ -140,4 +137,5 @@ def job_map():
 if __name__ == '__main__':
     #app.run(debug=True)
     #job_map()
+    bokeh.sampledata.download()
     app.run(port=33507)
