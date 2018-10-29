@@ -2,7 +2,7 @@
 import random
 import bokeh.sampledata
 # from bokeh.sampledata import us_states, us_counties, unemployment
-from bokeh.sampledata.stocks import AAPL
+# from bokeh.sampledata.stocks import AAPL
 from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.embed import file_html
@@ -93,6 +93,8 @@ def create_bar_chart(data, title, x_title, y_title,
 
 
 def job_map():
+
+    print('job map function')
 
     # states = us_states.data.copy()
     # print(states)
