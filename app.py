@@ -5,7 +5,8 @@ from bokeh.sampledata import us_states, us_counties, unemployment
 from bokeh.sampledata.stocks import AAPL
 from bokeh.plotting import figure
 from bokeh.embed import components
-
+from bokeh.embed import file_html
+from bokeh.resources import CDN
 from flask import Flask, render_template
 from bokeh.io import show
 import pandas as pd
@@ -20,20 +21,26 @@ def begin():
 
 
 @app.route('/trend')
+def trend_html():
+    return render_template('trend.html')
+
+
 def trend_graph():
 
     df = pd.DataFrame(AAPL)
     df['date'] = pd.to_datetime(df['date'])
 
     # create a new plot with a datetime axis type
-    p = figure(plot_width=800, plot_height=250, x_axis_type="datetime")
+    p = figure(title="Job Trend", plot_width=800, plot_height=250, x_axis_type="datetime")
 
     p.line(df['date'], df['close'], color='navy', alpha=0.5)
 
-    script, div = components(p)
-
-    return render_template('trend.html', the_div=div, the_script=script)
-
+    html = file_html(p, CDN, 'trend')
+    # script, div = components(p)
+    #
+    # return render_template('trend.html', the_div=div, the_script=script)
+    with open("templates/trend.html", 'w') as f:
+        f.write(html)
 
 
 def create_hover_tool():
@@ -84,12 +91,19 @@ def create_bar_chart(data, title, x_title, y_title,
 
     return plot
 
-@app.route('/job_map')
+
 def job_map():
 
     states = us_states.data.copy()
+    print(states)
+
     counties = us_counties.data.copy()
+
+    print(counties)
+
     unemployment_us = unemployment.data
+
+    print(unemployment_us)
 
     del states["HI"]
     del states["AK"]
@@ -115,7 +129,7 @@ def job_map():
         except KeyError:
             county_colors.append("black")
 
-    p = figure(title="Job Trends [Yet to be build]", toolbar_location="left",
+    p = figure(title="Job Map", toolbar_location="left",
                plot_width=1100, plot_height=700)
 
     p.patches(county_xs, county_ys,
@@ -125,17 +139,26 @@ def job_map():
     p.patches(state_xs, state_ys, fill_alpha=0.0,
               line_color="#884444", line_width=2, line_alpha=0.3)
 
+    html = file_html(p, CDN, 'job')
+
+    with open("templates/job_map.html", 'w') as f:
+        f.write(html)
+
     # output_file("choropleth.html", title="choropleth.py example")
 
     # show(p)
     # show(plot)
-    script, div = components(p)
+    # script, div = components(p)
+    # return render_template('job_map.html', the_div=div, the_script=script)
 
-    return render_template('job_map.html', the_div=div, the_script=script)
+
+@app.route('/job_map')
+def job_html():
+    return render_template('job_map.html')
 
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    #job_map()
-    bokeh.sampledata.download()
+    # job_map()
+    # trend_graph()
     app.run(port=33507)
