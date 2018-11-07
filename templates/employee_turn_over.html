@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee turn over</title>
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.css" rel="stylesheet">
+    <link href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.16.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Employee turn over </h1>
+
+    <form action="/employee_turn_over">
+        <select name="company_name">
+            {% for name in company_names %}
+                <option value="{{name}}">{{name}}</option>
+            {% endfor %}
+        </select>
+        <input type="Submit"/>
+    </form>
+    <div>
+        {{ the_div1|safe }}
+        <script src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.js"></script>
+        <script src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.16.min.js"></script>
+        {{ the_script1|safe }}
+
+    </div>
+
+    <div>
+        {{ the_div2|safe }}
+        <script src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.16.min.js"></script>
+        <script src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.16.min.js"></script>
+        {{ the_script2|safe }}
+
+    </div>
+
+  </body>
+</html>
